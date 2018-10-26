@@ -7,10 +7,14 @@ package View.Proyectos;
 
 
 
+import Model.DBConnection;
 import javax.swing.*;
 import java.awt.Container;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +29,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
     private static GuiAgregarProyecto gui=null;
     private Container container=new Container(); 
     private JTextField tNombreProyecto, tDireccion, tNroDireccion, tMunicipio, tNroProyecto;
-    private JComboBox cRama, cActividad, cMunicipio;
+    private JComboBox cActividad, cMunicipio;
     private JTextArea observaciones;
     private JLabel hasta;
     private List<JLabel> labels;
@@ -36,8 +40,11 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
     private JSpinner horarioSalida = new JSpinner(smSalida);
     private DateEditor deComienzo = new DateEditor(horarioComienzo, "HH:mm");
     private DateEditor deSalida = new DateEditor(horarioSalida, "HH:mm");
+    private String sqlQuery;
+    private PreparedStatement ps;
+    private ResultSet rs;
     
-    public GuiAgregarProyecto(){
+    public GuiAgregarProyecto() throws SQLException, Exception{
         super("Agregar proyecto");
         int x=20, y=5;
         labels=new ArrayList();
@@ -45,7 +52,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         container.setLayout(null);
         super.setSize(500, 350);
         super.setLocationRelativeTo(null);
-        for(int i=0;i<9;i++){
+        for(int i=0;i<8;i++){
             labels.add(new JLabel());
         }
         for(JLabel l: labels){
@@ -54,13 +61,12 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         }
         labels.get(0).setText("Numero de Proyecto: ");
         labels.get(1).setText("Nombre de Unidad Productiva: ");
-        labels.get(2).setText("Rama: ");
-        labels.get(3).setText("Actividad: ");
-        labels.get(4).setText("Horario de Trabajo: ");
-        labels.get(5).setText("Direccion: ");
-        labels.get(6).setText("Numero de Direccion: ");
-        labels.get(7).setText("Municipio: ");
-        labels.get(8).setText("Observaciones: ");
+        labels.get(2).setText("Actividad: ");
+        labels.get(3).setText("Horario de Trabajo: ");
+        labels.get(4).setText("Direccion: ");
+        labels.get(5).setText("Numero de Direccion: ");
+        labels.get(6).setText("Municipio: ");
+        labels.get(7).setText("Observaciones: ");
         for(JLabel l: labels){
             container.add(l);
         }
@@ -74,14 +80,18 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         tNombreProyecto.setBounds(x, y+=25, 150, 25);
         container.add(tNombreProyecto);
         
-        cRama=new JComboBox();
-        cRama.setBounds(x, y+=25, 150, 25);
-        cRama.addItem("hola");    //agregar items (crear funcion para cargar desde base de datos)
-        container.add(cRama);
-        
         cActividad=new JComboBox();
         cActividad.setBounds(x, y+=25, 150, 25);
-        cActividad.addItem("hola");    //agregar items (crear funcion para cargar desde base de datos)
+        DBConnection.conectar();
+        sqlQuery="SELECT * FROM actividadproyecto;";
+        ps=DBConnection.getConexion().prepareStatement(sqlQuery);
+        rs=ps.executeQuery();
+        while(rs.next()){
+            String nActividad=rs.getString("nombreActividadProyecto");
+            Integer iActividad=rs.getInt("idActividadProyecto");
+            cActividad.addItem(iActividad+"-"+nActividad);
+        }
+        DBConnection.desconectar();
         container.add(cActividad);
         
         horarioComienzo.setEditor(deComienzo);
@@ -94,12 +104,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         
         horarioSalida.setEditor(deSalida);
         horarioSalida.setBounds(x+94, y, 55, 25);
-        container.add(horarioSalida);
-        
-        
-        /*time.setBounds(x, y+=25, 150, 25);
-        container.add(time);
-        */      
+        container.add(horarioSalida);   
                 
         tDireccion=new JTextField();
         tDireccion.setBounds(x, y+=25, 150, 25);
@@ -127,7 +132,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public static GuiAgregarProyecto getInstance() {
+    public static GuiAgregarProyecto getInstance() throws Exception {
         if(gui==null){
             gui=new GuiAgregarProyecto();
             gui.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
