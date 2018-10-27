@@ -10,6 +10,10 @@ package View.Proyectos;
 import Model.DBConnection;
 import javax.swing.*;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.PreparedStatement;
@@ -25,7 +29,7 @@ import javax.swing.JSpinner.DateEditor;
  *
  * @author dagyus
  */
-public class GuiAgregarProyecto extends JFrame implements WindowListener{    
+public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemListener, ActionListener{    
     private static GuiAgregarProyecto gui=null;
     private Container container=new Container(); 
     private JTextField tNombreProyecto, tDireccion, tNroDireccion, tMunicipio, tNroProyecto;
@@ -40,9 +44,12 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
     private JSpinner horarioSalida = new JSpinner(smSalida);
     private DateEditor deComienzo = new DateEditor(horarioComienzo, "HH:mm");
     private DateEditor deSalida = new DateEditor(horarioSalida, "HH:mm");
+    private JButton btnAgregar;
     private String sqlQuery;
     private PreparedStatement ps;
     private ResultSet rs;
+    private Integer iActividad;
+    private String nActividad;
     
     public GuiAgregarProyecto() throws SQLException, Exception{
         super("Agregar proyecto");
@@ -87,8 +94,8 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         ps=DBConnection.getConexion().prepareStatement(sqlQuery);
         rs=ps.executeQuery();
         while(rs.next()){
-            String nActividad=rs.getString("nombreActividadProyecto");
-            Integer iActividad=rs.getInt("idActividadProyecto");
+            nActividad=rs.getString("nombreActividadProyecto");
+            iActividad=rs.getInt("idActividadProyecto");
             cActividad.addItem(iActividad+"-"+nActividad);
         }
         DBConnection.desconectar();
@@ -97,6 +104,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
         horarioComienzo.setEditor(deComienzo);
         horarioComienzo.setBounds(x, y+=25, 55, 25);
         container.add(horarioComienzo);
+        JOptionPane.showMessageDialog(null,String.valueOf(horarioComienzo.getValue()).substring(11, 16));
         
         hasta=new JLabel("hasta");
         hasta.setBounds(x+57, y, 35, 25);
@@ -179,5 +187,15 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener{
             gui.dispose();
             gui=null;
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e){
+        
     }
 }
