@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author dagyus
@@ -30,6 +32,7 @@ public class GuiPrincipal extends JFrame implements ActionListener{
     private JMenuItem agregar, buscar, quitar, agregarProyecto, quitarProyecto, modificarProyecto, buscarProyecto;
     public GuiPrincipal(){
         super("CCC");
+        super.setResizable(false);
         super.setBounds((screenSize.width/2)-400, (screenSize.height/2)-230, 800, 460);
         container=getContentPane();
         container.setLayout(null);
@@ -110,7 +113,11 @@ public class GuiPrincipal extends JFrame implements ActionListener{
             View.Proyectos.GuiBuscar guiBuscar=View.Proyectos.GuiBuscar.getInstance();
         }
         if(e.getSource()==agregarProyecto){
-            GuiAgregarProyecto guiAgregar=GuiAgregarProyecto.getInstance();
+            try {
+                GuiAgregarProyecto guiAgregar=GuiAgregarProyecto.getInstance();
+            } catch (Exception ex) {
+                
+            }
         }
     }
 

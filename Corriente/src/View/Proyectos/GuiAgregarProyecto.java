@@ -10,6 +10,8 @@ package View.Proyectos;
 import Model.DBConnection;
 import javax.swing.*;
 import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -57,7 +59,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
         labels=new ArrayList();
         container=super.getContentPane();
         container.setLayout(null);
-        super.setSize(500, 350);
+        super.setSize(480, 400);
         super.setLocationRelativeTo(null);
         for(int i=0;i<8;i++){
             labels.add(new JLabel());
@@ -128,13 +130,16 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
         container.add(cMunicipio);
         
         observaciones=new JTextArea(3, 20);
-        JScrollPane scroll=new JScrollPane(observaciones);
+        JScrollPane scroll=new JScrollPane();
+        scroll.setBounds(x, y+=25, 225, 80);
         scroll.setViewportView(observaciones);
-        observaciones.setBounds(x, y+=25, 150, 60);
-        container.add(observaciones);
+        container.add(scroll);
         super.add(scroll);
         
-        
+        btnAgregar=new JButton("Agregar proyecto");
+        btnAgregar.setBounds(170, y+=100, 140, 60);
+        container.add(btnAgregar);
+        super.setResizable(false);
         super.setVisible(true);
         super.addWindowListener(this);
         super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
