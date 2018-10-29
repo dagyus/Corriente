@@ -69,23 +69,22 @@ public class GuiAgregarActividad extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource()==btnAgregar){
-            String nombreRama=tfNombre.getText();
-            if(nombreRama==""){
-                JOptionPane.showMessageDialog(null, "Ingrese nombre de rama.");
+            String nombreActividad=tfNombre.getText();
+            if("".equals(nombreActividad)){
+                JOptionPane.showMessageDialog(null, "Ingrese nombre de actividad.");
             }else{
                 try {
                     DBConnection.conectar();
                     String sql;
                     sql="INSERT INTO actividadproyecto (nombreActividadProyecto, idRamaProyecto) VALUES (?,?);";
                     ps=DBConnection.getConexion().prepareStatement(sql);
-                    ps.setString(1, nombreRama);
+                    ps.setString(1, nombreActividad);
                     String nRama=cRama.getSelectedItem().toString();
                     ps.setInt(2, Integer.parseInt(nRama.substring(0, 1)));
                     ps.executeUpdate();
                     DBConnection.desconectar();
                     
                 } catch (Exception ex) {
-                    Logger.getLogger(GuiAgregarActividad.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
