@@ -5,12 +5,14 @@
  */
 package Interfaces;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author dagyus
  */
 public interface IOperacionesABM {
-    public abstract void alta(Object obj);
-    public abstract void baja(Object obj);
-    public abstract void modificacion(Object obj);
+    public abstract void alta(Object obj) throws SQLException;
+    public abstract void baja(Object obj) throws SQLException;
+    public abstract void modificacion(Object obj) throws SQLException;
 }
