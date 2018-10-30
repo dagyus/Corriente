@@ -8,6 +8,7 @@ package View.Proyectos;
 
 
 import Model.DBConnection;
+import Model.Proyectos;
 import javax.swing.*;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -21,10 +22,13 @@ import java.awt.event.WindowListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner.DateEditor;
 
 /**
@@ -201,6 +205,31 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     
     @Override
     public void actionPerformed(ActionEvent e){
-        
+        if(e.getSource()==btnAgregar){
+            try {
+                if(tNroProyecto.getText()!=""){
+                    Proyectos p=new Proyectos(Integer.parseInt(tNroProyecto.getText()),
+                        Integer.parseInt(tNroDireccion.getText()),
+                        String.valueOf(cActividad.getSelectedItem()),
+                        tNombreProyecto.getText(),
+                        tDireccion.getText(),
+                        String.valueOf(cMunicipio.getSelectedItem()),
+                        observaciones.getText(),
+                        String.valueOf(horarioComienzo.getValue()).substring(11, 16),
+                        String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                }else{
+                    Proyectos p=new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                        String.valueOf(cActividad.getSelectedItem()),
+                        tNombreProyecto.getText(),
+                        tDireccion.getText(),
+                        String.valueOf(cMunicipio.getSelectedItem()),
+                        observaciones.getText(),
+                        String.valueOf(horarioComienzo.getValue()).substring(11, 16),
+                        String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(GuiAgregarProyecto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
