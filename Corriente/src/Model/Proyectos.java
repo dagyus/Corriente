@@ -81,7 +81,7 @@ public class Proyectos implements IOperacionesABM{
                         + "localidadProyecto,"
                         + "idActividadProyecto,"
                         + "horaComienzoProyecto,"
-                        + "horaFinalProyecto) VALUES (?,?,?,?,?,?,?,?)";
+                        + "horaFinalProyecto) VALUES (?,?,?,?,?,?,?,?);";
                 ps=DBConnection.getConexion().prepareStatement(query);
                 ps.setInt(1, this.nroProyecto);
                 ps.setString(2, this.nombreUnidadProductiva);
@@ -97,6 +97,7 @@ public class Proyectos implements IOperacionesABM{
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, "Hubo un error al crear el proyecto.");
             } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error al crear el proyecto.");
             }
         }
     }
