@@ -207,8 +207,9 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==btnAgregar){
             try {
+                Proyectos p;
                 if(tNroProyecto.getText()!=""){
-                    Proyectos p=new Proyectos(Integer.parseInt(tNroProyecto.getText()),
+                    p=new Proyectos(Integer.parseInt(tNroProyecto.getText()),
                         Integer.parseInt(tNroDireccion.getText()),
                         String.valueOf(cActividad.getSelectedItem()),
                         tNombreProyecto.getText(),
@@ -218,7 +219,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                         String.valueOf(horarioComienzo.getValue()).substring(11, 16),
                         String.valueOf(horarioSalida.getValue()).substring(11, 16));
                 }else{
-                    Proyectos p=new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                    p=new Proyectos(Integer.parseInt(tNroDireccion.getText()),
                         String.valueOf(cActividad.getSelectedItem()),
                         tNombreProyecto.getText(),
                         tDireccion.getText(),
@@ -226,6 +227,11 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                         observaciones.getText(),
                         String.valueOf(horarioComienzo.getValue()).substring(11, 16),
                         String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                }
+                try {
+                    p.alta(p);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GuiAgregarProyecto.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (ParseException ex) {
                 Logger.getLogger(GuiAgregarProyecto.class.getName()).log(Level.SEVERE, null, ex);
