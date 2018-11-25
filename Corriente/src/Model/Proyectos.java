@@ -74,15 +74,12 @@ public class Proyectos implements IOperacionesABM{
             Proyectos p=(Proyectos) obj;
             try{
                 DBConnection.conectar();
-                System.out.println("aa");
-                System.out.println(p.toString());
-                System.out.println("\n"+Integer.parseInt(p.actividad.substring(0, 1)));
                 String query="INSERT INTO proyectos(nroProyecto, "
                         + "nombreProyecto, "
                         + "direccionProyecto, "
                         + "nroDireccionProyecto, "
                         + "localidadProyecto, "
-                        + "idActividadProyecto, "
+                        + "idActividad, "
                         + "horaComienzoProyecto, "
                         + "horaFinalProyecto) VALUES (?,?,?,?,?,?,?,?);";
                 ps=DBConnection.getConexion().prepareStatement(query);
@@ -93,20 +90,86 @@ public class Proyectos implements IOperacionesABM{
                 ps.setString(5, p.localidad);
                 ps.setInt(6, Integer.parseInt(p.actividad.substring(0, 1)));
                 ps.setString(7, (String.valueOf(p.horaInicio.getHours())+":"+String.valueOf(p.horaInicio.getMinutes())));
-                ps.setString(8, (String.valueOf(p.horaFinal.getHours())+":"+String.valueOf(p.horaFinal.getMinutes())));
-                System.out.println("bb");
-                
+                ps.setString(8, (String.valueOf(p.horaFinal.getHours())+":"+String.valueOf(p.horaFinal.getMinutes())));           
                 ps.executeUpdate();
                 DBConnection.desconectar();
             }catch(SQLException e){
                 System.out.println(e.getMessage());
                 JOptionPane.showMessageDialog(null, "aHubo un error al insertar el proyecto.\n"+e.getMessage());
-            } catch (Exception ex) {
-                //System.out.println(ex.getMessage());
-                //JOptionPane.showMessageDialog(null, "bHubo un error al insertar el proyecto.\n"+ex.getMessage());
-                throw new Exception(ex);
             }
         }
+    }
+
+    public int getNroProyecto() {
+        return nroProyecto;
+    }
+
+    public void setNroProyecto(int nroProyecto) {
+        this.nroProyecto = nroProyecto;
+    }
+
+    public int getNroDireccion() {
+        return nroDireccion;
+    }
+
+    public void setNroDireccion(int nroDireccion) {
+        this.nroDireccion = nroDireccion;
+    }
+
+    public String getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(String actividad) {
+        this.actividad = actividad;
+    }
+
+    public String getNombreUnidadProductiva() {
+        return nombreUnidadProductiva;
+    }
+
+    public void setNombreUnidadProductiva(String nombreUnidadProductiva) {
+        this.nombreUnidadProductiva = nombreUnidadProductiva;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public Date getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraInicio(Date horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public Date getHoraFinal() {
+        return horaFinal;
+    }
+
+    public void setHoraFinal(Date horaFinal) {
+        this.horaFinal = horaFinal;
     }
     
     @Override
@@ -120,6 +183,25 @@ public class Proyectos implements IOperacionesABM{
                 horaInicio+" "+
                 horaFinal);
     }
+    
+    public static Proyectos getProyectoByNroProyecto(int nroProyecto) throws SQLException, Exception{
+        DBConnection.conectar();
+        String sqlQuery="SELECT * FROM proyectos where nroProyecto=?;";
+        PreparedStatement ps=DBConnection.getConexion().prepareStatement(sqlQuery);
+        ps.setInt(0, nroProyecto);
+        ResultSet rs=ps.executeQuery();
+        while(rs.next()){
+            /*
+            
+            
+            
+            
+            
+            */
+        }
+        DBConnection.desconectar();
+        return null;
+    }
 
     @Override
     public void baja(Object obj) {
@@ -127,8 +209,35 @@ public class Proyectos implements IOperacionesABM{
     }
 
     @Override
-    public void modificacion(Object obj) {
-        
+    public void modificacion(Object obj) throws SQLException, Exception{
+        if(obj instanceof Proyectos){
+            Proyectos p=(Proyectos) obj;
+            try{
+                DBConnection.conectar();
+                String query="INSERT INTO proyectos(nroProyecto, "
+                        + "nombreProyecto, "
+                        + "direccionProyecto, "
+                        + "nroDireccionProyecto, "
+                        + "localidadProyecto, "
+                        + "idActividad, "
+                        + "horaComienzoProyecto, "
+                        + "horaFinalProyecto) VALUES (?,?,?,?,?,?,?,?);";
+                ps=DBConnection.getConexion().prepareStatement(query);
+                ps.setInt(1, p.nroProyecto);
+                ps.setString(2, p.nombreUnidadProductiva);
+                ps.setString(3, p.calle);
+                ps.setString(4, String.valueOf(p.nroDireccion));
+                ps.setString(5, p.localidad);
+                ps.setInt(6, Integer.parseInt(p.actividad.substring(0, 1)));
+                ps.setString(7, (String.valueOf(p.horaInicio.getHours())+":"+String.valueOf(p.horaInicio.getMinutes())));
+                ps.setString(8, (String.valueOf(p.horaFinal.getHours())+":"+String.valueOf(p.horaFinal.getMinutes())));           
+                ps.executeUpdate();
+                DBConnection.desconectar();
+            }catch(SQLException e){
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, "aHubo un error al insertar el proyecto.\n"+e.getMessage());
+            }
+        }
     }
     
     
