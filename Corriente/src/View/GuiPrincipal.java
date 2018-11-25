@@ -92,6 +92,7 @@ public class GuiPrincipal extends JFrame implements ActionListener{
         container.add(btnEditar);
         buscarProyecto.addActionListener(this);
         agregarProyecto.addActionListener(this);
+        modificarProyecto.addActionListener(this);
         btnBuscar.addActionListener(this);
         btnAgregar.addActionListener(this);
         btnEditar.addActionListener(this);
@@ -117,6 +118,13 @@ public class GuiPrincipal extends JFrame implements ActionListener{
                 GuiAgregarProyecto guiAgregar=GuiAgregarProyecto.getInstance();
             } catch (Exception ex) {
                 
+            }
+        }
+        if(e.getSource()==modificarProyecto){
+            try{
+                GuiModificarProyecto guiModificar=GuiModificarProyecto.getInstance();
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(null, "No se puede abrir la ventana."+ ex.getMessage());
             }
         }
     }

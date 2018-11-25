@@ -37,7 +37,6 @@ public class DBConnection {
                                         IDBConnectionProperties.usuario,
 					IDBConnectionProperties.password);
 			setConexion(conexion);
-                        JOptionPane.showMessageDialog(null, "Conexion exitosa.");
 		} catch (SQLException e) {
 			throw new Exception("Error en la conexion \n codigo"
 					+ e.getErrorCode() + "Explicacion:" + e.getMessage());

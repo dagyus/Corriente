@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * @author dagyus
  */
 public interface IOperacionesABM {
-    public abstract void alta(Object obj) throws SQLException;
-    public abstract void baja(Object obj) throws SQLException;
-    public abstract void modificacion(Object obj) throws SQLException;
+    public abstract void alta(Object obj) throws SQLException, Exception;
+    public abstract void baja(Object obj) throws SQLException, Exception;
+    public abstract void modificacion(Object obj) throws SQLException, Exception;
 }
