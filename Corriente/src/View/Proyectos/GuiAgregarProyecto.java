@@ -50,16 +50,52 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     private JSpinner horarioSalida = new JSpinner(smSalida);
     private DateEditor deComienzo = new DateEditor(horarioComienzo, "HH:mm");
     private DateEditor deSalida = new DateEditor(horarioSalida, "HH:mm");
-    private JButton btnAgregar;
     private String sqlQuery;
     private PreparedStatement ps;
     private ResultSet rs;
+    private JButton btnAgregar, btnModificar;
     private Integer iActividad;
     private String nActividad;
+    private int x=20, y=5;
     
     public GuiAgregarProyecto() throws SQLException, Exception{
         super("Agregar proyecto");
-        int x=20, y=5;
+        render();        
+        btnAgregar=new JButton("Agregar proyecto");
+        btnAgregar.setBounds(170, y+=100, 140, 60);
+        container.add(btnAgregar);
+        btnAgregar.addActionListener(this);
+        super.setResizable(false);
+        super.setVisible(true);
+        super.addWindowListener(this);
+        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    public GuiAgregarProyecto(Proyectos p) throws SQLException, Exception{
+        super("Modificar proyecto");
+        render();        
+        btnModificar=new JButton("Modificar proyecto");
+        //private JTextField tNombreProyecto, tDireccion, tNroDireccion, tMunicipio, tNroProyecto;cActividad, horarioComienzo, horarioSalida
+        // cMunicipio, observaciones
+        tNombreProyecto.setText(p.getNombreUnidadProductiva());
+        tDireccion.setText(p.getCalle());
+        tNroDireccion.setText(String.valueOf(p.getNroDireccion()));
+        tNroProyecto.setText(String.valueOf(p.getNroProyecto()));
+        horarioComienzo.setValue(p.getHoraInicio());
+        horarioSalida.setValue(p.getHoraFinal());
+        cActividad.setSelectedItem(p.getActividad());
+        cMunicipio.setSelectedItem(p.getLocalidad());
+        observaciones.setText(p.getObservaciones());
+        btnModificar.setBounds(170, y+=100, 140, 60);
+        container.add(btnModificar);
+        btnModificar.addActionListener(this);
+        super.setResizable(false);
+        super.setVisible(true);
+        super.addWindowListener(this);
+        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    
+    private void render() throws SQLException, Exception{
         labels=new ArrayList();
         container=super.getContentPane();
         container.setLayout(null);
@@ -139,15 +175,6 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
         scroll.setViewportView(observaciones);
         container.add(scroll);
         super.add(scroll);
-        
-        btnAgregar=new JButton("Agregar proyecto");
-        btnAgregar.setBounds(170, y+=100, 140, 60);
-        container.add(btnAgregar);
-        btnAgregar.addActionListener(this);
-        super.setResizable(false);
-        super.setVisible(true);
-        super.addWindowListener(this);
-        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     public static GuiAgregarProyecto getInstance() throws Exception {
@@ -206,45 +233,83 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnAgregar){
-            
-                Proyectos p = null;
-                if(!("".equals(tNroProyecto.getText()))){
-                    try {
-                        p=new Proyectos(Integer.parseInt(tNroProyecto.getText()),
-                                Integer.parseInt(tNroDireccion.getText()),
-                                cActividad.getSelectedItem().toString(),
-                                tNombreProyecto.getText(),
-                                tDireccion.getText(),
-                                cMunicipio.getSelectedItem().toString(),
-                                observaciones.getText(),
-                                String.valueOf(horarioComienzo.getValue()).substring(11, 16),
-                                String.valueOf(horarioSalida.getValue()).substring(11, 16));
-                                JOptionPane.showMessageDialog(null, "P creado.");
-                    } catch (ParseException ex) {
-                        JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
-                    }
-                }else{
-                    try {
-                        p=new Proyectos(Integer.parseInt(tNroDireccion.getText()),
-                                cActividad.getSelectedItem().toString(),
-                                tNombreProyecto.getText(),
-                                tDireccion.getText(),
-                                cMunicipio.getSelectedItem().toString(),
-                                observaciones.getText(),
-                                String.valueOf(horarioComienzo.getValue()).substring(11, 16),
-                                String.valueOf(horarioSalida.getValue()).substring(11, 16));
-                        JOptionPane.showMessageDialog(null, "P creado.");
-                    } catch (ParseException ex) {
-                        JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
-                    }
-                }
+        if (e.getSource() == btnAgregar) {
+            Proyectos p = null;
+            if (!("".equals(tNroProyecto.getText()))) {
                 try {
-                    p.alta(p);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "No se pudo llamar a la funcion alta.");
+                    p = new Proyectos(Integer.parseInt(tNroProyecto.getText()),
+                            Integer.parseInt(tNroDireccion.getText()),
+                            cActividad.getSelectedItem().toString(),
+                            tNombreProyecto.getText(),
+                            tDireccion.getText(),
+                            cMunicipio.getSelectedItem().toString(),
+                            observaciones.getText(),
+                            String.valueOf(horarioComienzo.getValue()).substring(11, 16),
+                            String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                    JOptionPane.showMessageDialog(null, "P creado.");
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
                 }
-            
+            } else {
+                try {
+                    p = new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                            cActividad.getSelectedItem().toString(),
+                            tNombreProyecto.getText(),
+                            tDireccion.getText(),
+                            cMunicipio.getSelectedItem().toString(),
+                            observaciones.getText(),
+                            String.valueOf(horarioComienzo.getValue()).substring(11, 16),
+                            String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                    JOptionPane.showMessageDialog(null, "P creado.");
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
+                }
+            }
+            try {
+                p.alta(p);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo llamar a la funcion alta.");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo crear el proyecto. Excepcion: " + ex.getMessage());
+            }
+        }
+        if(e.getSource()==btnModificar){
+            Proyectos p = null;
+            if (!("".equals(tNroProyecto.getText()))) {
+                try {
+                    p = new Proyectos(Integer.parseInt(tNroProyecto.getText()),
+                            Integer.parseInt(tNroDireccion.getText()),
+                            cActividad.getSelectedItem().toString(),
+                            tNombreProyecto.getText(),
+                            tDireccion.getText(),
+                            cMunicipio.getSelectedItem().toString(),
+                            observaciones.getText(),
+                            String.valueOf(horarioComienzo.getValue()).substring(11, 16),
+                            String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                    JOptionPane.showMessageDialog(null, "P creado.");
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
+                }
+            } else {
+                try {
+                    p = new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                            cActividad.getSelectedItem().toString(),
+                            tNombreProyecto.getText(),
+                            tDireccion.getText(),
+                            cMunicipio.getSelectedItem().toString(),
+                            observaciones.getText(),
+                            String.valueOf(horarioComienzo.getValue()).substring(11, 16),
+                            String.valueOf(horarioSalida.getValue()).substring(11, 16));
+                    JOptionPane.showMessageDialog(null, "P creado.");
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
+                }
+            }
+            try {
+                p.modificacion(p);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo crear el proyecto. Excepcion: " + ex.getMessage());
+            }
         }
     }
 }
