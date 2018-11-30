@@ -30,6 +30,7 @@ public class GuiModificarProyecto extends JFrame implements ActionListener, Wind
     private JComboBox cmbSeleccionarProyecto;
     private JButton btnModificar;
     private static GuiModificarProyecto gui;
+    //private List<int> nrosProyecto
     
     GuiModificarProyecto() throws Exception, SQLException{
         super("Modificar Proyecto");
@@ -74,13 +75,25 @@ public class GuiModificarProyecto extends JFrame implements ActionListener, Wind
         }
         return gui;
     }
+    
+    private int getNroProyecto(String texto){
+        String cadena="";
+        for(int i=0;i<=texto.length(); i++){
+            if(texto.charAt(i)!='-'){
+                cadena+=texto.charAt(i);
+            }else{
+                break;
+            }
+        }        
+        return Integer.parseInt(cadena);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==btnModificar){
             try {
-                String cProyecto=String.valueOf(cmbSeleccionarProyecto);
-                int nroProyecto=Integer.parseInt(cProyecto.substring(0, 4));
+                String cProyecto=String.valueOf(cmbSeleccionarProyecto.getSelectedItem());
+                int nroProyecto=getNroProyecto(cProyecto);
                 GuiAgregarProyecto guiAgregar=new GuiAgregarProyecto(Proyectos.getProyectoByNroProyecto(nroProyecto));
             } catch (Exception ex) {
                 Logger.getLogger(GuiModificarProyecto.class.getName()).log(Level.SEVERE, null, ex);

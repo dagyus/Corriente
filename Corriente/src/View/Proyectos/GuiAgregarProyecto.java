@@ -235,10 +235,10 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == btnAgregar) {
             Proyectos p = null;
-            if (!("".equals(tNroProyecto.getText()))) {
+            if (!(tNroProyecto.getText().equals(""))) {
                 try {
                     p = new Proyectos(Integer.parseInt(tNroProyecto.getText()),
-                            Integer.parseInt(tNroDireccion.getText()),
+                            tNroDireccion.getText(),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
                             tDireccion.getText(),
@@ -246,13 +246,12 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                             observaciones.getText(),
                             String.valueOf(horarioComienzo.getValue()).substring(11, 16),
                             String.valueOf(horarioSalida.getValue()).substring(11, 16));
-                    JOptionPane.showMessageDialog(null, "P creado.");
                 } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
                 }
             } else {
                 try {
-                    p = new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                    p = new Proyectos(tNroDireccion.getText(),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
                             tDireccion.getText(),
@@ -260,9 +259,8 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                             observaciones.getText(),
                             String.valueOf(horarioComienzo.getValue()).substring(11, 16),
                             String.valueOf(horarioSalida.getValue()).substring(11, 16));
-                    JOptionPane.showMessageDialog(null, "P creado.");
                 } catch (ParseException ex) {
-                    JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
+                    Logger.getLogger(GuiAgregarProyecto.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             try {
@@ -275,10 +273,10 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
         }
         if(e.getSource()==btnModificar){
             Proyectos p = null;
-            if (!("".equals(tNroProyecto.getText()))) {
+            if (!(tNroProyecto.getText().equals(""))) {
                 try {
                     p = new Proyectos(Integer.parseInt(tNroProyecto.getText()),
-                            Integer.parseInt(tNroDireccion.getText()),
+                            tNroDireccion.getText(),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
                             tDireccion.getText(),
@@ -286,13 +284,13 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                             observaciones.getText(),
                             String.valueOf(horarioComienzo.getValue()).substring(11, 16),
                             String.valueOf(horarioSalida.getValue()).substring(11, 16));
-                    JOptionPane.showMessageDialog(null, "P creado.");
                 } catch (ParseException ex) {
-                    JOptionPane.showMessageDialog(null, "Error de parseo en algun lado.");
+                    Logger.getLogger(GuiAgregarProyecto.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                JOptionPane.showMessageDialog(null, "P creado.");
             } else {
                 try {
-                    p = new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                    p = new Proyectos(tNroDireccion.getText(),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
                             tDireccion.getText(),

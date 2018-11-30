@@ -23,13 +23,13 @@ import javax.swing.JOptionPane;
  */
 public class Proyectos implements IOperacionesABM{
     
-    private int nroProyecto, nroDireccion;
-    private String actividad, nombreUnidadProductiva, calle, observaciones, localidad;
+    private int nroProyecto;
+    private String actividad, nombreUnidadProductiva, calle, observaciones, localidad, nroDireccion;
     private Date horaInicio, horaFinal;
     private SimpleDateFormat formato=new SimpleDateFormat("HH:mm");
     private PreparedStatement ps=null;
     
-    public Proyectos(int nroProyecto, int nroDireccion, 
+    public Proyectos(int nroProyecto, String nroDireccion, 
             String actividad, String nombreUnidadProductiva, String calle, String localidad, 
             String observaciones, String horaInicio, String horaFinal) throws ParseException{
         this.nroProyecto=nroProyecto;
@@ -45,7 +45,7 @@ public class Proyectos implements IOperacionesABM{
         this.horaFinal=formato.parse(horaFinal);
     }
     
-    public Proyectos(int nroDireccion, 
+    public Proyectos(String nroDireccion, 
             String actividad, String nombreUnidadProductiva, String calle, String localidad, 
             String observaciones, String horaInicio, String horaFinal) throws ParseException{
         this.nombreUnidadProductiva=nombreUnidadProductiva;
@@ -59,7 +59,8 @@ public class Proyectos implements IOperacionesABM{
         this.horaFinal=new Date();
         this.horaFinal=formato.parse(horaFinal);
     }
-    
+
+   
     /**
      *
      * @param obj
@@ -86,7 +87,7 @@ public class Proyectos implements IOperacionesABM{
                 ps.setInt(1, p.nroProyecto);
                 ps.setString(2, p.nombreUnidadProductiva);
                 ps.setString(3, p.calle);
-                ps.setString(4, String.valueOf(p.nroDireccion));
+                ps.setString(4, p.nroDireccion);
                 ps.setString(5, p.localidad);
                 ps.setInt(6, Integer.parseInt(p.actividad.substring(0, 1)));
                 ps.setString(7, (String.valueOf(p.horaInicio.getHours())+":"+String.valueOf(p.horaInicio.getMinutes())));
@@ -108,11 +109,11 @@ public class Proyectos implements IOperacionesABM{
         this.nroProyecto = nroProyecto;
     }
 
-    public int getNroDireccion() {
+    public String getNroDireccion() {
         return nroDireccion;
     }
 
-    public void setNroDireccion(int nroDireccion) {
+    public void setNroDireccion(String nroDireccion) {
         this.nroDireccion = nroDireccion;
     }
 
@@ -185,19 +186,32 @@ public class Proyectos implements IOperacionesABM{
     }
     
     public static Proyectos getProyectoByNroProyecto(int nroProyecto) throws SQLException, Exception{
+        Proyectos p=null;
         DBConnection.conectar();
+        JOptionPane.showMessageDialog(null, nroProyecto);
         String sqlQuery="SELECT * FROM proyectos where nroProyecto=?;";
         PreparedStatement ps=DBConnection.getConexion().prepareStatement(sqlQuery);
-        ps.setInt(0, nroProyecto);
+        ps.setInt(1, nroProyecto);
         ResultSet rs=ps.executeQuery();
         while(rs.next()){
-            /*
-            
-            
-            
-            
-            
-            */
+            int idActividad=rs.getInt("idActividadProyecto");
+            String nombreActividad=null;
+            String Sql="SELECT nombreActividadProyecto from actividadProyecto where idActividadProyecto=?";
+            PreparedStatement ps2=DBConnection.getConexion().prepareStatement(Sql);
+            ps2.setInt(1, idActividad);
+            ResultSet rs2=ps2.executeQuery();
+            while(rs2.next()){
+                nombreActividad=rs2.getString("nombreActividadProyecto");
+            }
+            p=new Proyectos(rs.getInt("nroProyecto"), 
+                    rs.getString("nroDireccionProyecto")),
+                    nombreActividad,
+                    rs.getString("nombreProyecto"),
+                    rs.getString("direccionProyecto"),
+                    rs.getString("localidadProyecto"),
+                    rs.getString("observaciones")
+                    rs.getString("horaComienzoProyecto"),
+                    rs.getString("horaFinalProyecto"));
         }
         DBConnection.desconectar();
         return null;
