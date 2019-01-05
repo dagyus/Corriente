@@ -47,5 +47,9 @@ public class ActividadBO {
         this.nombreActividad = nombreActividad;
     }
     
+    @Override
+    public String toString(){
+        return idActividad+" "+nombreActividad+" "+idRamaProyecto;
+    }
     
 }
