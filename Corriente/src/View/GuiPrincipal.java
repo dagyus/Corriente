@@ -14,27 +14,27 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author dagyus
  */
 public class GuiPrincipal extends JFrame implements ActionListener{
     private Container container=new Container();
-    private Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
-    private JCalendar calendario;
-    private JButton btnBuscar, btnAgregar, btnEditar;
-    private ImageIcon iconFind, iconAdd, iconUpdate;
-    private Fuente font=new Fuente();
-    private JMenuBar menu;
-    private JMenu base, proyectos;
-    private JMenuItem agregar, buscar, quitar, agregarProyecto, quitarProyecto, modificarProyecto, buscarProyecto;
+    final private Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+    final private JCalendar calendario;
+    final private JButton btnBuscar, btnAgregar, btnEditar;
+    final private ImageIcon iconFind, iconAdd, iconUpdate;
+    final private Fuente font=new Fuente();
+    final private JMenuBar menu;
+    final private JMenu base, proyectos;
+    final private JMenuItem agregar, buscar, quitar, agregarProyecto, quitarProyecto, modificarProyecto, buscarProyecto;
+    
     public GuiPrincipal(){
         super("CCC");
         super.setResizable(false);
         super.setBounds((screenSize.width/2)-400, (screenSize.height/2)-230, 800, 460);
-        container=getContentPane();
+        container=super.getContentPane();
         container.setLayout(null);
         menu=new JMenuBar();
         base=new JMenu("Base");
@@ -111,18 +111,18 @@ public class GuiPrincipal extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(null, "Boton de editar apretado");
         }
         if(e.getSource()==buscarProyecto){
-            View.Proyectos.GuiBuscar guiBuscar=View.Proyectos.GuiBuscar.getInstance();
+            View.Proyectos.GuiBuscar.getInstance();
         }
         if(e.getSource()==agregarProyecto){
             try {
-                GuiAgregarProyecto guiAgregar=GuiAgregarProyecto.getInstance();
+                GuiAgregarProyecto.getInstance();
             } catch (Exception ex) {
-                
+                ex.printStackTrace();
             }
         }
         if(e.getSource()==modificarProyecto){
             try{
-                GuiModificarProyecto guiModificar=GuiModificarProyecto.getInstance();
+                GuiModificarProyecto.getInstance();
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null, "No se puede abrir la ventana."+ ex.getMessage());
             }

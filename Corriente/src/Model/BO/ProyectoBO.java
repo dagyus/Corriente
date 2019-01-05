@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.BO;
 import Interfaces.IOperacionesABM;
+import Model.DBConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author dagyus
  */
-public class Proyectos implements IOperacionesABM{
+public class ProyectoBO implements IOperacionesABM{
     
     private int nroProyecto, nroDireccion;
     private String actividad, nombreUnidadProductiva, calle, observaciones, localidad;
@@ -29,7 +30,7 @@ public class Proyectos implements IOperacionesABM{
     private SimpleDateFormat formato=new SimpleDateFormat("HH:mm");
     private PreparedStatement ps=null;
     
-    public Proyectos(int nroProyecto, int nroDireccion, 
+    public ProyectoBO(int nroProyecto, int nroDireccion, 
             String actividad, String nombreUnidadProductiva, String calle, String localidad, 
             String observaciones, String horaInicio, String horaFinal) throws ParseException{
         this.nroProyecto=nroProyecto;
@@ -45,7 +46,7 @@ public class Proyectos implements IOperacionesABM{
         this.horaFinal=formato.parse(horaFinal);
     }
     
-    public Proyectos(int nroDireccion, 
+    public ProyectoBO(int nroDireccion, 
             String actividad, String nombreUnidadProductiva, String calle, String localidad, 
             String observaciones, String horaInicio, String horaFinal) throws ParseException{
         this.nombreUnidadProductiva=nombreUnidadProductiva;
@@ -70,8 +71,8 @@ public class Proyectos implements IOperacionesABM{
      */
     @Override
     public void alta(Object obj) throws SQLException, Exception{
-        if(obj instanceof Proyectos){
-            Proyectos p=(Proyectos) obj;
+        if(obj instanceof ProyectoBO){
+            ProyectoBO p=(ProyectoBO) obj;
             try{
                 DBConnection.conectar();
                 String query="INSERT INTO proyectos(nroProyecto, "
@@ -184,7 +185,7 @@ public class Proyectos implements IOperacionesABM{
                 horaFinal);
     }
     
-    public static Proyectos getProyectoByNroProyecto(int nroProyecto) throws SQLException, Exception{
+    public static ProyectoBO getProyectoByNroProyecto(int nroProyecto) throws SQLException, Exception{
         DBConnection.conectar();
         String sqlQuery="SELECT * FROM proyectos where nroProyecto=?;";
         PreparedStatement ps=DBConnection.getConexion().prepareStatement(sqlQuery);
@@ -210,8 +211,8 @@ public class Proyectos implements IOperacionesABM{
 
     @Override
     public void modificacion(Object obj) throws SQLException, Exception{
-        if(obj instanceof Proyectos){
-            Proyectos p=(Proyectos) obj;
+        if(obj instanceof ProyectoBO){
+            ProyectoBO p=(ProyectoBO) obj;
             try{
                 DBConnection.conectar();
                 String query="INSERT INTO proyectos(nroProyecto, "

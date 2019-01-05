@@ -8,7 +8,7 @@ package View.Proyectos;
 
 
 import Model.DBConnection;
-import Model.Proyectos;
+import Model.BO.ProyectoBO;
 import javax.swing.*;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -71,7 +71,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
         super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
-    public GuiAgregarProyecto(Proyectos p) throws SQLException, Exception{
+    public GuiAgregarProyecto(ProyectoBO p) throws SQLException, Exception{
         super("Modificar proyecto");
         render();        
         btnModificar=new JButton("Modificar proyecto");
@@ -234,10 +234,10 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     @Override
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == btnAgregar) {
-            Proyectos p = null;
+            ProyectoBO p = null;
             if (!("".equals(tNroProyecto.getText()))) {
                 try {
-                    p = new Proyectos(Integer.parseInt(tNroProyecto.getText()),
+                    p = new ProyectoBO(Integer.parseInt(tNroProyecto.getText()),
                             Integer.parseInt(tNroDireccion.getText()),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
@@ -252,7 +252,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                 }
             } else {
                 try {
-                    p = new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                    p = new ProyectoBO(Integer.parseInt(tNroDireccion.getText()),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
                             tDireccion.getText(),
@@ -274,10 +274,10 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
             }
         }
         if(e.getSource()==btnModificar){
-            Proyectos p = null;
+            ProyectoBO p = null;
             if (!("".equals(tNroProyecto.getText()))) {
                 try {
-                    p = new Proyectos(Integer.parseInt(tNroProyecto.getText()),
+                    p = new ProyectoBO(Integer.parseInt(tNroProyecto.getText()),
                             Integer.parseInt(tNroDireccion.getText()),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
@@ -292,7 +292,7 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
                 }
             } else {
                 try {
-                    p = new Proyectos(Integer.parseInt(tNroDireccion.getText()),
+                    p = new ProyectoBO(Integer.parseInt(tNroDireccion.getText()),
                             cActividad.getSelectedItem().toString(),
                             tNombreProyecto.getText(),
                             tDireccion.getText(),

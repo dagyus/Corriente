@@ -6,7 +6,7 @@
 package View.Proyectos;
 
 import Model.DBConnection;
-import Model.Proyectos;
+import Model.BO.ProyectoBO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -81,7 +81,7 @@ public class GuiModificarProyecto extends JFrame implements ActionListener, Wind
             try {
                 String cProyecto=String.valueOf(cmbSeleccionarProyecto);
                 int nroProyecto=Integer.parseInt(cProyecto.substring(0, 4));
-                GuiAgregarProyecto guiAgregar=new GuiAgregarProyecto(Proyectos.getProyectoByNroProyecto(nroProyecto));
+                GuiAgregarProyecto guiAgregar=new GuiAgregarProyecto(ProyectoBO.getProyectoByNroProyecto(nroProyecto));
             } catch (Exception ex) {
                 Logger.getLogger(GuiModificarProyecto.class.getName()).log(Level.SEVERE, null, ex);
             }

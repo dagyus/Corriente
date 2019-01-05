@@ -6,7 +6,7 @@
 package test;
 
 import Model.DBConnection;
-import Model.Proyectos;
+import Model.BO.ProyectoBO;
 import View.*;
 import View.Proyectos.GuiAgregarRama;
 import javax.swing.JFrame;

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.BO;
 import Interfaces.IOperacionesABM;
 
-public class Personas implements IOperacionesABM{
+public class PersonaBO implements IOperacionesABM{
 
     @Override
     public void alta(Object obj) {
