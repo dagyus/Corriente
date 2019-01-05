@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package View;
+import Model.BO.RamaBO;
+import Model.DAO.DAOBase;
 import View.Personas.*;
 import Resources.*;
 import View.Proyectos.*;
@@ -14,6 +16,10 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import org.hibernate.Session;
+import javax.persistence.criteria.CriteriaQuery;
+import org.hibernate.Query;
 
 /**
  *
@@ -96,7 +102,26 @@ public class GuiPrincipal extends JFrame implements ActionListener{
         btnBuscar.addActionListener(this);
         btnAgregar.addActionListener(this);
         btnEditar.addActionListener(this);
+        testHibernate();
         super.setVisible(true);
+    }
+    
+    private void testHibernate(){
+        try {
+        Session session=DAOBase.getSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from RamaBO");
+        List<RamaBO> ramas = q.list();
+        for(RamaBO re: ramas){
+            System.out.println(re.toString());
+        }
+        session.getTransaction().commit();
+        session.close();
+        DAOBase.closeSession();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     @Override
