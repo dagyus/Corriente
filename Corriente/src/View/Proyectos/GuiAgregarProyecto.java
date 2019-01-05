@@ -11,8 +11,6 @@ import Model.DBConnection;
 import Model.BO.ProyectoBO;
 import javax.swing.*;
 import java.awt.Container;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JSpinner.DateEditor;
 
 /**
@@ -43,13 +39,13 @@ public class GuiAgregarProyecto extends JFrame implements WindowListener, ItemLi
     private JTextArea observaciones;
     private JLabel hasta;
     private List<JLabel> labels;
-    private Date date = new Date();
-    private SpinnerDateModel smComienzo = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-    private SpinnerDateModel smSalida = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-    private JSpinner horarioComienzo = new JSpinner(smComienzo);
-    private JSpinner horarioSalida = new JSpinner(smSalida);
-    private DateEditor deComienzo = new DateEditor(horarioComienzo, "HH:mm");
-    private DateEditor deSalida = new DateEditor(horarioSalida, "HH:mm");
+    final private Date date = new Date();
+    final private SpinnerDateModel smComienzo = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
+    final private SpinnerDateModel smSalida = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
+    final private JSpinner horarioComienzo = new JSpinner(smComienzo);
+    final private JSpinner horarioSalida = new JSpinner(smSalida);
+    final private DateEditor deComienzo = new DateEditor(horarioComienzo, "HH:mm");
+    final private DateEditor deSalida = new DateEditor(horarioSalida, "HH:mm");
     private String sqlQuery;
     private PreparedStatement ps;
     private ResultSet rs;
