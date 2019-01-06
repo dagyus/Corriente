@@ -6,6 +6,7 @@
 package View;
 import Model.BO.RamaBO;
 import Model.DAO.DAOBase;
+import Model.DBConnection;
 import View.Personas.*;
 import Resources.*;
 import View.Proyectos.*;
@@ -108,7 +109,7 @@ public class GuiPrincipal extends JFrame implements ActionListener{
     
     private void testHibernate(){
         try {
-        Session session=DAOBase.getSession();
+        Session session=DBConnection.getSession();
         session.beginTransaction();
         Query q = session.createQuery("from RamaBO");
         List<RamaBO> ramas = q.list();
@@ -117,7 +118,7 @@ public class GuiPrincipal extends JFrame implements ActionListener{
         }
         session.getTransaction().commit();
         session.close();
-        DAOBase.closeSession();
+        DBConnection.closeSession();
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
